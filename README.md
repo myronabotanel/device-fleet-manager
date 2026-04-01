@@ -9,4 +9,3 @@ A device management system for tracking company-owned mobile devices.
 - Version Control: Git
 
 ## Setup
-*Coming soon*
