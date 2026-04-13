@@ -83,5 +83,14 @@ namespace DeviceFleetManager.API.Controllers
             await _service.UpdateAsync(id, device);
             return Ok(device);
         }
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string q)
+        {
+            if (string.IsNullOrWhiteSpace(q))
+                return Ok(new List<Device>());
+            
+            var results = await _service.SearchAsync(q);
+            return Ok(results);
+        }
     }
 }

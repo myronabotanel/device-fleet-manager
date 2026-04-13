@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class DeviceDetail implements OnInit {
   device: Device | null = null;
+  assignedUserName: string | null = null;  
 
   constructor(
     private deviceService: DeviceService,
@@ -21,11 +22,18 @@ export class DeviceDetail implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log('ID din URL:', id);
     if (id) {
       this.deviceService.getById(id).subscribe(data => {
-        console.log('Device primit:', data);
         this.device = data;
+
+        // Daca e asignat, fetch numele userului
+        if (data.userId) {
+          this.deviceService.getUserById(data.userId).subscribe(user => {
+            this.assignedUserName = user.name;
+            this.cdr.detectChanges();
+          });
+        }
+
         this.cdr.detectChanges();
       });
     }

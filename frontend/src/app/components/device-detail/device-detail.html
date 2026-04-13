@@ -10,7 +10,8 @@
     <p><strong>Processor:</strong> {{ device.processor }}</p>
     <p><strong>RAM:</strong> {{ device.ramAmount }} GB</p>
     <p><strong>Description:</strong> {{ device.description }}</p>
-    <p><strong>Assigned to:</strong> {{ device.userId ?? 'Not assigned' }}</p>
+    <p><strong>Assigned to:</strong> {{ assignedUserName ?? 'Not assigned' }}</p>
+
   </div>
 
   <button (click)="edit()">Edit</button>

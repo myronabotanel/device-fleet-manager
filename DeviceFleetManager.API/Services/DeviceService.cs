@@ -24,6 +24,9 @@ namespace DeviceFleetManager.API.Services
 
         public async Task DeleteAsync(string id) =>
             await _repository.DeleteAsync(id);
+        public async Task<List<Device>> SearchAsync(string query){
+            return await _repository.SearchAsync(query);
+        }
         
     }
 }
