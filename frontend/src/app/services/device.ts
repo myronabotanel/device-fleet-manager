@@ -55,4 +55,18 @@ export class DeviceService {
   unassign(id: string): Observable<Device> {
     return this.http.put<Device>(`${this.apiUrl}/${id}/unassign`, {}, { headers: this.getHeaders() });
   }
+  generateDescription(device: Device): Observable<{ description: string }> {
+  return this.http.post<{ description: string }>(
+    'http://localhost:5019/api/ai/generate-description',
+    {
+      name: device.name,
+      manufacturer: device.manufacturer,
+      type: device.type,
+      operatingSystem: device.operatingSystem,
+      ramAmount: device.ramAmount,
+      processor: device.processor
+    },
+    { headers: this.getHeaders() }
+  );
+}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceService, Device } from '../../services/device';
 import { FormsModule } from '@angular/forms';
@@ -18,11 +18,13 @@ export class DeviceForm implements OnInit {
   };
   isEditMode = false;
   deviceId: string | null = null;
+  isGenerating = false;
 
   constructor(
     private deviceService: DeviceService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -35,14 +37,23 @@ export class DeviceForm implements OnInit {
     }
   }
 
-  save(): void {
-    if (!this.device.name || !this.device.manufacturer || !this.device.operatingSystem ||
-        !this.device.osVersion || !this.device.processor || !this.device.description ||
-        !this.device.ramAmount) {
-      alert('Toate campurile sunt obligatorii!');
-      return;
-    }
+  generateDescription(): void {
+    this.isGenerating = true;
+    this.deviceService.generateDescription(this.device).subscribe({
+      next: (response) => {
+        this.device.description = response.description;
+        this.cdr.detectChanges();
+        this.isGenerating = false;
+      },
+      error: (err) => {
+        console.log('Error:', err);
+        alert('Error generating description!');
+        this.isGenerating = false;
+      }
+    });
+  }
 
+  save(): void {
     if (this.isEditMode && this.deviceId) {
       this.deviceService.update(this.deviceId, this.device).subscribe(() => {
         this.router.navigate(['/devices']);
