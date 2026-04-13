@@ -36,6 +36,13 @@ export class DeviceForm implements OnInit {
   }
 
   save(): void {
+    if (!this.device.name || !this.device.manufacturer || !this.device.operatingSystem ||
+        !this.device.osVersion || !this.device.processor || !this.device.description ||
+        !this.device.ramAmount) {
+      alert('Toate câmpurile sunt obligatorii!');
+      return;
+    }
+
     if (this.isEditMode && this.deviceId) {
       this.deviceService.update(this.deviceId, this.device).subscribe(() => {
         this.router.navigate(['/devices']);
