@@ -114,13 +114,13 @@ The app will be available at: `http://localhost:4200`
 
 ## 📖 API Endpoints
 
-### Auth
+### Auth — `/api/auth` (public)
 | Method | Endpoint | Description |
 |---|---|---|
 | POST | `/api/auth/register` | Register a new user |
 | POST | `/api/auth/login` | Login and receive JWT token |
 
-### Devices
+### Devices — `/api/device` (🔒 requires JWT)
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/api/device` | Get all devices |
@@ -132,13 +132,16 @@ The app will be available at: `http://localhost:4200`
 | PUT | `/api/device/{id}/unassign` | Unassign device from current user |
 | GET | `/api/device/search?q={query}` | Free-text search with relevance ranking |
 
-### Users
+### Users — `/api/user` (public)
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/api/user` | Get all users |
 | GET | `/api/user/{id}` | Get user by ID |
+| POST | `/api/user` | Create a new user |
+| PUT | `/api/user/{id}` | Update a user |
+| DELETE | `/api/user/{id}` | Delete a user |
 
-### AI
+### AI — `/api/ai` (🔒 requires JWT)
 | Method | Endpoint | Description |
 |---|---|---|
 | POST | `/api/ai/generate-description` | Generate device description using Gemini |
