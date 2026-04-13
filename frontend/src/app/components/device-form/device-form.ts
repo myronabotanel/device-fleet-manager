@@ -39,7 +39,7 @@ export class DeviceForm implements OnInit {
     if (!this.device.name || !this.device.manufacturer || !this.device.operatingSystem ||
         !this.device.osVersion || !this.device.processor || !this.device.description ||
         !this.device.ramAmount) {
-      alert('Toate câmpurile sunt obligatorii!');
+      alert('Toate campurile sunt obligatorii!');
       return;
     }
 

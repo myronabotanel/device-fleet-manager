@@ -33,7 +33,7 @@ export class DeviceList implements OnInit {
   }
 
   deleteDevice(id: string): void {
-    if (confirm('Ești sigur că vrei să ștergi acest device?')) {
+    if (confirm('Chiar vrei sa stergi acest device?')) {
       this.deviceService.delete(id).subscribe(() => {
         this.loadDevices();
       });

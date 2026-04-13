@@ -15,7 +15,7 @@ export class DeviceList implements OnInit {
   constructor(
     private deviceService: DeviceService,
     private router: Router,
-    private cdr: ChangeDetectorRef  // <-- adaugă asta
+    private cdr: ChangeDetectorRef  
   ) {}
 
   ngOnInit(): void {
@@ -24,8 +24,8 @@ export class DeviceList implements OnInit {
 
   loadDevices(): void {
     this.deviceService.getAll().subscribe(data => {
-      this.devices = [...data];  // <-- spread operator, forțează detectarea schimbării
-      this.cdr.detectChanges();  // <-- forțează Angular să re-randeze
+      this.devices = [...data];  
+      this.cdr.detectChanges(); 
       console.log('Devices setate:', this.devices);
     });
   }
@@ -39,7 +39,7 @@ export class DeviceList implements OnInit {
   }
 
   deleteDevice(id: string): void {
-    if (confirm('Ești sigur că vrei să ștergi acest device?')) {
+    if (confirm('Chiar vrei sa stergi acest device?')) {
       this.deviceService.delete(id).subscribe(() => {
         this.loadDevices();
       });
