@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DeviceFleetManager.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3025ba95c79d82e0178d8092bfa39df1314e2bdd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3df9fbc879b74fa0dbdf2118ebedbf1775dbad1f")]
 [assembly: System.Reflection.AssemblyProductAttribute("DeviceFleetManager.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DeviceFleetManager.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using System.Text;
+using Polly;
+using Polly.Extensions.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +62,19 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddOpenApi();
+builder.Services.AddHttpClient<AiService>()
+    .AddPolicyHandler(HttpPolicyExtensions
+        .HandleTransientHttpError() // Prinde erori retea
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.TooManyRequests) // Prinde eroarea 429 (am avut o de mutle ori)
+        .WaitAndRetryAsync(
+            retryCount: 3, 
+            sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), // wait 2, 4, 8 sec
+            onRetry: (outcome, timespan, retryAttempt, context) =>
+            {
+                // mes err
+                Console.WriteLine($"[Avertisment] Eroare 429 - Prea multe cereri. Se asteapta {timespan.TotalSeconds}s ininte de incercare {retryAttempt}...");
+            }));
+
 
 var app = builder.Build();
 
@@ -68,7 +83,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -40,8 +40,11 @@
   </div>
 
   <div style="margin-bottom: 10px;">
-    <label>Description *</label><br>
-    <textarea [(ngModel)]="device.description" required style="width: 100%; height: 80px;"></textarea>
+    <label>Description</label><br>
+    <textarea [(ngModel)]="device.description" style="width: 100%; height: 80px;"></textarea>
+    <button (click)="generateDescription()" [disabled]="isGenerating" style="margin-top: 5px;">
+      {{ isGenerating ? 'Generating...' : ' <3 Generate Description' }}
+    </button>
   </div>
 
   <button (click)="save()">{{ isEditMode ? 'Update' : 'Save' }}</button>
