@@ -75,4 +75,11 @@ export class DeviceService {
     { headers: this.getHeaders() }
   );
 }
+getUserById(id: string): Observable<{ id: string, name: string, email: string }> {
+  return this.http.get<{ id: string, name: string, email: string }>(
+    `http://localhost:5019/api/user/${id}`,
+    { headers: this.getHeaders() }
+  );
+}
+
 }

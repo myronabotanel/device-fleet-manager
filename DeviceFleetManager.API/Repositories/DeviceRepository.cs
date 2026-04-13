@@ -31,21 +31,48 @@ namespace DeviceFleetManager.API.Repositories
             await _devices.DeleteOneAsync(d => d.Id == id);
         
         public async Task<List<Device>> SearchAsync(string query){
-            var all = await _devices.Find(_ => true).ToListAsync(); 
+            var all = await _devices.Find(_ => true).ToListAsync();
             
-            var tokens = query.Trim().ToLower()
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            // Normalizare query
+            var normalized = new string(query.ToLower()
+                .Select(c => char.IsPunctuation(c) ? ' ' : c).ToArray());
+            
+            var tokens = normalized
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Where(t => t != "gb" && t != "ram" && t != "mb")
+                .ToArray();
 
             var scored = all
                 .Select(device => new
                 {
                     Device = device,
                     Score = tokens.Sum(token =>
-                        (device.Name?.ToLower().Contains(token) == true ? 4 : 0) +
-                        (device.Manufacturer?.ToLower().Contains(token) == true ? 3 : 0) +
-                        (device.Processor?.ToLower().Contains(token) == true ? 2 : 0) +
-                        (device.RamAmount.ToString().Contains(token) == true ? 1 : 0)
-                    )
+                    {
+                        int score = 0;
+                        
+                        // Name - max prior
+                        var nameLower = device.Name?.ToLower() ?? "";
+                        if (nameLower == token) score += 5;
+                        else if (nameLower.Split(' ').Any(w => w == token)) score += 4;
+                        else if (nameLower.Contains(token)) score += 3;
+                        
+                        // Manufacturer (3 pts exact, 2 pts contains)
+                        var manuLower = device.Manufacturer?.ToLower() ?? "";
+                        if (manuLower == token) score += 3;
+                        else if (manuLower.Contains(token)) score += 2;
+                        
+                        // Processor (2 pts exact word, 1 pt contains)
+                        var procLower = device.Processor?.ToLower() ?? "";
+                        if (procLower.Split(' ').Any(w => w == token)) score += 2;
+                        else if (procLower.Contains(token)) score += 1;
+                        
+                        // RAM - exact match pe numar (ex: "6" sau "6gb")
+                        var ramStr = device.RamAmount.ToString();
+                        var tokenDigits = new string(token.Where(char.IsDigit).ToArray());
+                        if (!string.IsNullOrEmpty(tokenDigits) && ramStr == tokenDigits) score += 2;
+                        
+                        return score;
+                    })
                 })
                 .Where(x => x.Score > 0)
                 .OrderByDescending(x => x.Score)
