@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Device {
@@ -23,23 +23,36 @@ export class DeviceService {
 
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+  }
+
   getAll(): Observable<Device[]> {
-    return this.http.get<Device[]>(this.apiUrl);
+    return this.http.get<Device[]>(this.apiUrl, { headers: this.getHeaders() });
   }
 
   getById(id: string): Observable<Device> {
-    return this.http.get<Device>(`${this.apiUrl}/${id}`);
+    return this.http.get<Device>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 
   create(device: Device): Observable<Device> {
-    return this.http.post<Device>(this.apiUrl, device);
+    return this.http.post<Device>(this.apiUrl, device, { headers: this.getHeaders() });
   }
 
   update(id: string, device: Device): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, device);
+    return this.http.put<void>(`${this.apiUrl}/${id}`, device, { headers: this.getHeaders() });
   }
 
   delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  assign(id: string): Observable<Device> {
+    return this.http.put<Device>(`${this.apiUrl}/${id}/assign`, {}, { headers: this.getHeaders() });
+  }
+
+  unassign(id: string): Observable<Device> {
+    return this.http.put<Device>(`${this.apiUrl}/${id}/unassign`, {}, { headers: this.getHeaders() });
   }
 }

@@ -1,12 +1,12 @@
 <div style="padding: 20px;">
-  <h1>Device Fleet Manager</h1>
   <div style="display: flex; justify-content: space-between; align-items: center;">
-  <h1>Device Fleet Manager</h1>
-  <div>
-    <span>Welcome, {{ userName }}!</span>
-    <button (click)="logout()" style="margin-left: 10px;">Logout</button>
+    <h1>Device Fleet Manager</h1>
+    <div>
+      <span>Welcome, {{ userName }}!</span>
+      <button (click)="logout()" style="margin-left: 10px;">Logout</button>
+    </div>
   </div>
-</div>
+
   <button (click)="addNew()">+ Add New Device</button>
 
   <table border="1" style="width: 100%; margin-top: 20px; border-collapse: collapse;">
@@ -17,21 +17,25 @@
         <th>Type</th>
         <th>OS</th>
         <th>RAM</th>
+        <th>Assigned To</th>
         <th>Actions</th>
       </tr>
     </thead>
-   <tbody>
-  <tr *ngFor="let device of devices">
-    <td>{{ device.name }}</td>
-    <td>{{ device.manufacturer }}</td>
-    <td>{{ device.type }}</td>
-    <td>{{ device.operatingSystem }}</td>
-    <td>{{ device.ramAmount }} GB</td>
-    <td>
-      <button (click)="viewDetail(device.id!)">View</button>
-      <button (click)="deleteDevice(device.id!)">Delete</button>
-    </td>
-  </tr>
-</tbody>
+    <tbody>
+      <tr *ngFor="let device of devices">
+        <td>{{ device.name }}</td>
+        <td>{{ device.manufacturer }}</td>
+        <td>{{ device.type }}</td>
+        <td>{{ device.operatingSystem }}</td>
+        <td>{{ device.ramAmount }} GB</td>
+        <td>{{ device.userId ? 'Assigned' : 'Free' }}</td>
+        <td>
+          <button (click)="viewDetail(device.id!)">View</button>
+          <button (click)="deleteDevice(device.id!)">Delete</button>
+          <button *ngIf="!device.userId" (click)="assignDevice(device.id!)">Assign</button>
+          <button *ngIf="device.userId === currentUserId" (click)="unassignDevice(device.id!)">Unassign</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
