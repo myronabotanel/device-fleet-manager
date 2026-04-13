@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceService, Device } from '../../services/device';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth';
+
 
 @Component({
   selector: 'app-device-list',
@@ -15,8 +17,16 @@ export class DeviceList implements OnInit {
   constructor(
     private deviceService: DeviceService,
     private router: Router,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef  
   ) {}
+
+  userName = localStorage.getItem('userName') ?? '';
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
 
   ngOnInit(): void {
     this.loadDevices();
