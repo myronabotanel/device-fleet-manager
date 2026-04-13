@@ -30,6 +30,10 @@ namespace DeviceFleetManager.API.Services
         //Delete
         public async Task DeleteAsync(string id) =>
             await _users.DeleteOneAsync(u => u.Id == id);
+        
+        //pt auth
+        public async Task<User?> GetByEmailAsync(string email) =>
+            await _users.Find(u => u.Email == email).FirstOrDefaultAsync();
 
     }
     
