@@ -10,7 +10,7 @@
         "projectUniqueName": "D:\\MarshTech\\DeviceFleetManager.API\\DeviceFleetManager.API.csproj",
         "projectName": "DeviceFleetManager.API",
         "projectPath": "D:\\MarshTech\\DeviceFleetManager.API\\DeviceFleetManager.API.csproj",
-        "packagesPath": "C:\\Users\\miron\\.nuget\\packages\\",
+        "packagesPath": "D:\\MarshTech\\.dotnet\\.nuget\\packages\\",
         "outputPath": "D:\\MarshTech\\DeviceFleetManager.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [

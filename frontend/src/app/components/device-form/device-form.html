@@ -1,0 +1,49 @@
+<div style="padding: 20px; max-width: 600px;">
+  <h1>{{ isEditMode ? 'Edit Device' : 'Add New Device' }}</h1>
+
+  <div style="margin-bottom: 10px;">
+    <label>Name *</label><br>
+    <input [(ngModel)]="device.name" required style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Manufacturer *</label><br>
+    <input [(ngModel)]="device.manufacturer" required style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Type *</label><br>
+    <select [(ngModel)]="device.type" style="width: 100%;">
+      <option value="phone">Phone</option>
+      <option value="tablet">Tablet</option>
+    </select>
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Operating System *</label><br>
+    <input [(ngModel)]="device.operatingSystem" required style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>OS Version *</label><br>
+    <input [(ngModel)]="device.osVersion" required style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Processor *</label><br>
+    <input [(ngModel)]="device.processor" required style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>RAM Amount (GB) *</label><br>
+    <input [(ngModel)]="device.ramAmount" type="number" required style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Description *</label><br>
+    <textarea [(ngModel)]="device.description" required style="width: 100%; height: 80px;"></textarea>
+  </div>
+
+  <button (click)="save()">{{ isEditMode ? 'Update' : 'Save' }}</button>
+  <button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
+</div>

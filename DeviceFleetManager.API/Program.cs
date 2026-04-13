@@ -1,6 +1,16 @@
 using DeviceFleetManager.API.Repositories;
 using DeviceFleetManager.API.Services;
 using MongoDB.Driver;
+using MongoDB.Bson.Serialization.Conventions;
+
+// Configurare BSON Convention pentru mapare camelCase
+var pack = new ConventionPack
+{
+    new CamelCaseElementNameConvention(),
+    new IgnoreExtraElementsConvention(true),
+    new IgnoreIfDefaultConvention(true)
+};
+ConventionRegistry.Register("camelCase", pack, t => true);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +40,15 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
 
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -40,6 +59,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.MapControllers();
 
 app.Run();

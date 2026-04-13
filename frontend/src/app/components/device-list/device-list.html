@@ -1,0 +1,30 @@
+<div style="padding: 20px;">
+  <h1>Device Fleet Manager</h1>
+  <button (click)="addNew()">+ Add New Device</button>
+
+  <table border="1" style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Manufacturer</th>
+        <th>Type</th>
+        <th>OS</th>
+        <th>RAM</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+   <tbody>
+  <tr *ngFor="let device of devices">
+    <td>{{ device.name }}</td>
+    <td>{{ device.manufacturer }}</td>
+    <td>{{ device.type }}</td>
+    <td>{{ device.operatingSystem }}</td>
+    <td>{{ device.ramAmount }} GB</td>
+    <td>
+      <button (click)="viewDetail(device.id!)">View</button>
+      <button (click)="deleteDevice(device.id!)">Delete</button>
+    </td>
+  </tr>
+</tbody>
+  </table>
+</div>

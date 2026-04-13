@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace DeviceFleetManager.API.Models
 {
+    [BsonIgnoreExtraElements]
     public class Device
     {
         [BsonId]  //primary key
