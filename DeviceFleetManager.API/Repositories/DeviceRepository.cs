@@ -18,17 +18,17 @@ namespace DeviceFleetManager.API.Repositories
         public async Task<Device?> GetByIdAsync(string id) =>
             await _devices.Find(d => d.Id == id).FirstOrDefaultAsync();
         
-        //insert device
+        //insert device  
         public async Task CreateAsync(Device device) =>
-             _devices.InsertOneAsync(device);
-        
+            await _devices.InsertOneAsync(device);
+
         //update
         public async Task UpdateAsync(string id, Device device) =>
-            _devices.ReplaceOneAsync(d => d.Id == id, device);
-        
+            await _devices.ReplaceOneAsync(d => d.Id == id, device);
+
         //Delete
         public async Task DeleteAsync(string id) =>
-            _devices.DeleteOneAsync(d =>d.Id == id);
-        
+            await _devices.DeleteOneAsync(d => d.Id == id);
+                
     }
 }

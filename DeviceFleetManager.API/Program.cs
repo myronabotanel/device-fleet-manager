@@ -1,3 +1,5 @@
+using DeviceFleetManager.API.Repositories;
+using DeviceFleetManager.API.Services;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,13 +15,21 @@ var mongoDatabase = mongoClient.GetDatabase(mongoDatabaseName);
 try
 {
     mongoClient.ListDatabaseNames();
-    Console.WriteLine("Conexiune MongoDB reusita!");
+    Console.WriteLine("✅ Conexiune MongoDB reusita!");
 }
 catch (Exception ex)
 {
-    Console.WriteLine($"Eroare conexiune MongoDB: {ex.Message}");
+    Console.WriteLine($"❌ Eroare conexiune MongoDB: {ex.Message}");
 }
 
+// Inregistrare servicii
+builder.Services.AddSingleton<IMongoDatabase>(mongoDatabase);
+builder.Services.AddScoped<DeviceRepository>();
+builder.Services.AddScoped<DeviceService>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserService>();
+
+builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -30,5 +40,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 
 app.Run();

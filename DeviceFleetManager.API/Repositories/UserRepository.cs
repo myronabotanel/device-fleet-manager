@@ -21,15 +21,15 @@ namespace DeviceFleetManager.API.Services
         
         //insert user
         public async Task CreateAsync(User user) =>
-            _users.InsertOneAsync(user);
+            await _users.InsertOneAsync(user);
         
         //update
         public async Task UpdateAsync(string id, User user) =>
-            _users.ReplaceOneAsync(u => u.Id ==id, user);
+            await _users.ReplaceOneAsync(u => u.Id ==id, user);
         
         //Delete
         public async Task DeleteAsync(string id) =>
-            _users.DeleteOneAsync(u => u.Id == id);
+            await _users.DeleteOneAsync(u => u.Id == id);
 
     }
     
