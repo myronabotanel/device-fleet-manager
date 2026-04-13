@@ -1,0 +1,35 @@
+<div style="padding: 20px; max-width: 400px; margin: 100px auto;">
+  <h1>Register</h1>
+
+  <div style="margin-bottom: 10px;">
+    <label>Name *</label><br>
+    <input [(ngModel)]="name" style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Email *</label><br>
+    <input [(ngModel)]="email" type="email" style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Password *</label><br>
+    <input [(ngModel)]="password" type="password" style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Role *</label><br>
+    <input [(ngModel)]="role" style="width: 100%;">
+  </div>
+
+  <div style="margin-bottom: 10px;">
+    <label>Location *</label><br>
+    <input [(ngModel)]="location" style="width: 100%;">
+  </div>
+
+  <div *ngIf="errorMessage" style="color: red; margin-bottom: 10px;">
+    {{ errorMessage }}
+  </div>
+
+  <button (click)="register()">Register</button>
+  <button (click)="goToLogin()" style="margin-left: 10px;">Back to Login</button>
+</div>

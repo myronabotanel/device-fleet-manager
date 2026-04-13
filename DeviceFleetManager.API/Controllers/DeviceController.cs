@@ -1,9 +1,11 @@
 using DeviceFleetManager.API.Models;
 using DeviceFleetManager.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeviceFleetManager.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class DeviceController : ControllerBase
@@ -50,6 +52,36 @@ namespace DeviceFleetManager.API.Controllers
             if (existing is null) return NotFound();
             await _service.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpPut("{id}/assign")]
+        public async Task<IActionResult> Assign(string id)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Unauthorized();
+
+            var device = await _service.GetByIdAsync(id);
+            if (device is null) return NotFound();
+            if (device.UserId != null) return BadRequest("Device is already assigned.");
+
+            device.UserId = userId;
+            await _service.UpdateAsync(id, device);
+            return Ok(device);
+        }
+
+        [HttpPut("{id}/unassign")]
+        public async Task<IActionResult> Unassign(string id)
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Unauthorized();
+
+            var device = await _service.GetByIdAsync(id);
+            if (device is null) return NotFound();
+            if (device.UserId != userId) return BadRequest("You can only unassign your own device.");
+
+            device.UserId = null;
+            await _service.UpdateAsync(id, device);
+            return Ok(device);
         }
     }
 }

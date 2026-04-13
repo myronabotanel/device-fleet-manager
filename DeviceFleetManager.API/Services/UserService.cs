@@ -25,5 +25,8 @@ namespace DeviceFleetManager.API.Services
         public async Task DeleteAsync(string id) =>
             await _repository.DeleteAsync(id);
         
+        //auth
+        public async Task<User?> GetByEmailAsync(string email) =>
+            await _repository.GetByEmailAsync(email);
     }
 }

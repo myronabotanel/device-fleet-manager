@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceService, Device } from '../../services/device';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-device-list',
@@ -11,11 +12,14 @@ import { CommonModule } from '@angular/common';
 })
 export class DeviceList implements OnInit {
   devices: Device[] = [];
+  userName = localStorage.getItem('userName') ?? '';
+  currentUserId = localStorage.getItem('userId') ?? '';
 
   constructor(
     private deviceService: DeviceService,
     private router: Router,
-    private cdr: ChangeDetectorRef  
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -24,9 +28,8 @@ export class DeviceList implements OnInit {
 
   loadDevices(): void {
     this.deviceService.getAll().subscribe(data => {
-      this.devices = [...data];  
-      this.cdr.detectChanges(); 
-      console.log('Devices setate:', this.devices);
+      this.devices = [...data];
+      this.cdr.detectChanges();
     });
   }
 
@@ -44,5 +47,22 @@ export class DeviceList implements OnInit {
         this.loadDevices();
       });
     }
+  }
+
+  assignDevice(id: string): void {
+    this.deviceService.assign(id).subscribe(() => {
+      this.loadDevices();
+    });
+  }
+
+  unassignDevice(id: string): void {
+    this.deviceService.unassign(id).subscribe(() => {
+      this.loadDevices();
+    });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

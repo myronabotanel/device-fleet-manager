@@ -1,16 +1,9 @@
 using DeviceFleetManager.API.Repositories;
 using DeviceFleetManager.API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
-using MongoDB.Bson.Serialization.Conventions;
-
-// Configurare BSON Convention pentru mapare camelCase
-var pack = new ConventionPack
-{
-    new CamelCaseElementNameConvention(),
-    new IgnoreExtraElementsConvention(true),
-    new IgnoreIfDefaultConvention(true)
-};
-ConventionRegistry.Register("camelCase", pack, t => true);
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +32,23 @@ builder.Services.AddScoped<DeviceService>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
 
+// Configurare JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        };
+    });
+
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
@@ -60,6 +70,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

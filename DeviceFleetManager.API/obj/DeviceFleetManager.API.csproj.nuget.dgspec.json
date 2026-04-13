@@ -10,7 +10,7 @@
         "projectUniqueName": "D:\\MarshTech\\DeviceFleetManager.API\\DeviceFleetManager.API.csproj",
         "projectName": "DeviceFleetManager.API",
         "projectPath": "D:\\MarshTech\\DeviceFleetManager.API\\DeviceFleetManager.API.csproj",
-        "packagesPath": "D:\\MarshTech\\.dotnet\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\miron\\.nuget\\packages\\",
         "outputPath": "D:\\MarshTech\\DeviceFleetManager.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -50,6 +50,14 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.2, )"

@@ -38,3 +38,12 @@ D:\MarshTech\DeviceFleetManager.API\obj\Debug\net10.0\refint\DeviceFleetManager.
 D:\MarshTech\DeviceFleetManager.API\obj\Debug\net10.0\DeviceFleetManager.API.pdb
 D:\MarshTech\DeviceFleetManager.API\obj\Debug\net10.0\DeviceFleetManager.API.genruntimeconfig.cache
 D:\MarshTech\DeviceFleetManager.API\obj\Debug\net10.0\ref\DeviceFleetManager.API.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\BCrypt.Net-Next.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+D:\MarshTech\DeviceFleetManager.API\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
