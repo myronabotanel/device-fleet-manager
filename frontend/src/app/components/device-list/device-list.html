@@ -9,6 +9,16 @@
 
   <button (click)="addNew()">+ Add New Device</button>
 
+  <div style="margin-top: 15px; display: flex; gap: 8px;">
+    <input 
+      [(ngModel)]="searchQuery" 
+      placeholder="Search by name, manufacturer, processor, RAM..."
+      style="width: 350px; padding: 6px;"
+      (keyup.enter)="search()">
+    <button (click)="search()">Search</button>
+    <button (click)="clearSearch()">Clear</button>
+  </div>
+
   <table border="1" style="width: 100%; margin-top: 20px; border-collapse: collapse;">
     <thead>
       <tr>

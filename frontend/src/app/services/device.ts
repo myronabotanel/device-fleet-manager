@@ -55,6 +55,12 @@ export class DeviceService {
   unassign(id: string): Observable<Device> {
     return this.http.put<Device>(`${this.apiUrl}/${id}/unassign`, {}, { headers: this.getHeaders() });
   }
+  search(query: string): Observable<Device[]> {
+  return this.http.get<Device[]>(
+    `${this.apiUrl}/search?q=${encodeURIComponent(query)}`,
+    { headers: this.getHeaders() }
+  );
+}
   generateDescription(device: Device): Observable<{ description: string }> {
   return this.http.post<{ description: string }>(
     'http://localhost:5019/api/ai/generate-description',

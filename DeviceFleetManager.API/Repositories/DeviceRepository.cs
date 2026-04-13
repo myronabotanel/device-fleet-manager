@@ -29,6 +29,31 @@ namespace DeviceFleetManager.API.Repositories
         //Delete
         public async Task DeleteAsync(string id) =>
             await _devices.DeleteOneAsync(d => d.Id == id);
+        
+        public async Task<List<Device>> SearchAsync(string query){
+            var all = await _devices.Find(_ => true).ToListAsync(); 
+            
+            var tokens = query.Trim().ToLower()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            var scored = all
+                .Select(device => new
+                {
+                    Device = device,
+                    Score = tokens.Sum(token =>
+                        (device.Name?.ToLower().Contains(token) == true ? 4 : 0) +
+                        (device.Manufacturer?.ToLower().Contains(token) == true ? 3 : 0) +
+                        (device.Processor?.ToLower().Contains(token) == true ? 2 : 0) +
+                        (device.RamAmount.ToString().Contains(token) == true ? 1 : 0)
+                    )
+                })
+                .Where(x => x.Score > 0)
+                .OrderByDescending(x => x.Score)
+                .Select(x => x.Device)
+                .ToList();
+
+            return scored;
+        }
                 
     }
 }
